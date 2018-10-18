@@ -101,6 +101,7 @@ def print_isopen(ser):
 
 
 def com_worker():
+    global current_display
     ser = serial.Serial()
     ser.port = 'COM4'
     while True:
@@ -115,6 +116,21 @@ def com_worker():
                 ser.open()
             if not com_status:
                 com_was_enabled()
+
+            data = ser.read(1)
+
+            by_com = False
+
+            if ser.inWaiting():  # noqa
+                com_data = ser.readline()
+                print('READ FROM COM: ', com_data)
+                by_com = True
+                current_display = com_data
+            else:
+                if by_com:
+                    by_com = False
+                    current_display = DISPLAY_CLEAR_CHAR
+
             if current_display != DISPLAY_CLEAR_CHAR:
                 ser.write(str.encode(current_display))
             else:
