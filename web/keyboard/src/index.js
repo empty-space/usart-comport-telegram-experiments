@@ -54,13 +54,13 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function onComEnabled() {
-    M.toast({html: COM_TOAST_CONNECTED, classes: 'green'});
+    // M.toast({html: COM_TOAST_CONNECTED, classes: 'green'}); // To show toast with inform message
     comStatus.classList.remove("red-dod");
     comStatus.classList.add("green-dod");
 }
 
 function onComDisabled() {
-    M.toast({html: COM_TOAST_DISCONNECTED, classes: 'red'});
+    // M.toast({html: COM_TOAST_DISCONNECTED, classes: 'red'}); // To show toast with inform message
     comStatus.classList.remove("green-dod");
     comStatus.classList.add("red-dod");
 }
