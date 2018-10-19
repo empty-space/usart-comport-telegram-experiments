@@ -7,27 +7,27 @@
 
 
 
-void init_keypad(void){
-    
+void init_keypad(void){    
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);// BUS is ON
     
-    GPIO_InitTypeDef      KEYPAD_COL_B_STRUCT; // REDY for struct 
+    GPIO_InitTypeDef      KEYPAD_COL_B_STRUCT; 
+		//Init columns 
     KEYPAD_COL_B_STRUCT.GPIO_Pin =     GPIO_Pin_13 |    // KEEP HARD PINS 
                                        GPIO_Pin_14 |
                                        GPIO_Pin_15;
     KEYPAD_COL_B_STRUCT.GPIO_Mode = GPIO_Mode_Out_OD;
-	KEYPAD_COL_B_STRUCT.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOB, &KEYPAD_COL_B_STRUCT);
-    
-     // Init row
-    GPIO_InitTypeDef KEYPAD_ROW_B_STRUCT;
-	KEYPAD_ROW_B_STRUCT.GPIO_Pin =     GPIO_Pin_12 |    // KEEP HARD PINS 
-                                       GPIO_Pin_11 |
-                                       GPIO_Pin_10 |
-                                       GPIO_Pin_9;
-	KEYPAD_ROW_B_STRUCT.GPIO_Mode = GPIO_Mode_IPU;
-	KEYPAD_ROW_B_STRUCT.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOB, &KEYPAD_ROW_B_STRUCT);
+		KEYPAD_COL_B_STRUCT.GPIO_Speed = GPIO_Speed_50MHz;
+		GPIO_Init(GPIOB, &KEYPAD_COL_B_STRUCT);
+			
+		// Init rows
+		GPIO_InitTypeDef KEYPAD_ROW_B_STRUCT;
+		KEYPAD_ROW_B_STRUCT.GPIO_Pin =     GPIO_Pin_12 |    // KEEP HARD PINS 
+																				 GPIO_Pin_11 |
+																				 GPIO_Pin_10 |
+																				 GPIO_Pin_9;
+		KEYPAD_ROW_B_STRUCT.GPIO_Mode = GPIO_Mode_IPU;
+		KEYPAD_ROW_B_STRUCT.GPIO_Speed = GPIO_Speed_50MHz;
+		GPIO_Init(GPIOB, &KEYPAD_ROW_B_STRUCT);
 }
 
 

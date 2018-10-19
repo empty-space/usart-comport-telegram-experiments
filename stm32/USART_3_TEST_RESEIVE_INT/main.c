@@ -8,6 +8,7 @@
 #include "usart_lib.h"
 #include "tm1637.h"
 #include "brown_delay.h"
+#include "pc_usart.h"
 
 
 // RESEIVER 
@@ -49,15 +50,22 @@ int main(void)
 	
     TM1637_clearDisplay();		
     USART1_Init();
+		init_usart2();
 	
 		char old_tem_res=tem_res;   
+		char old_pc_res=pc_res; 
 		while(1)
     {
+			uart_putc(USART2,tem_res);
 			if(old_tem_res!=tem_res){
 				DisplaySymbol(tem_res);
-        //TM1637_display_all((uint8_t)tem_res);
 				old_tem_res = tem_res;
 			}
+			if(old_pc_res!=pc_res){
+				DisplaySymbol(pc_res);        
+				old_pc_res = pc_res;
+			}
+			
     }
 }   
 
@@ -75,7 +83,8 @@ void DisplaySymbol(uint8_t c){
 			case '#': 
 					TM1637_display_all_custom(0x00f6f600 );					
 					break;
-			default:				
+			default:	
+					TM1637_display_custom(0,c);				
 					break;
     }
 	}

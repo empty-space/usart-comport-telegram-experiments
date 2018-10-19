@@ -4,6 +4,12 @@
 #include <string.h>
 #include "stm32f10x_usart.h"
 
+//--------------------
+//
+// THIS lib uses: 
+//				PA9  PA10 	for USART1
+//				
+//-------------------
 
 // Open UART, configure baudrate and the Tx/Rx
 int uart_open(USART_TypeDef* USARTx, uint32_t baud, uint32_t flags);

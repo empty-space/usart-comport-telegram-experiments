@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\_lib_brown_delay;.\_lib_usart;.\_lib_tim_1637</IncludePath>
+              <IncludePath>.\_lib_brown_delay;.\_lib_usart;.\_lib_tim_1637;.\_lib_usart_pc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -414,6 +414,16 @@
               <FileName>usart_lib.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\_lib_usart\usart_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>pc_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\_lib_usart_pc\pc_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>pc_usart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\_lib_usart_pc\pc_usart.h</FilePath>
             </File>
           </Files>
         </Group>

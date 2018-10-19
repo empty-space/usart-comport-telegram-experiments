@@ -42,8 +42,8 @@ int uart_open(USART_TypeDef* USARTx, uint32_t baud, uint32_t flags)
 	// Modify USART_InitStructure for non-default values, e.G.
 	USART_InitStructure.USART_BaudRate = baud;
 	USART_InitStructure.USART_Mode = flags;
-	USART_InitStructure.USART_WordLength = USART_WordLength_9b;
-	USART_InitStructure.USART_Parity = USART_Parity_Even;
+	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+	USART_InitStructure.USART_Parity = USART_Parity_No;
 	
 	USART_Init(USARTx, &USART_InitStructure);
 	USART_Cmd(USARTx, ENABLE);

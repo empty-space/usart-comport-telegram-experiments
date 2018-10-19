@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\_lib_brown_delay;.\_lib_tim_1637;.\_lib_usart;.\_lib_usart;.\_lib_btn_led;.\_lib_keyboard</IncludePath>
+              <IncludePath>.\_lib_brown_delay;.\_lib_tim_1637;.\_lib_usart;.\_lib_usart;.\_lib_btn_led;.\_lib_keyboard;.\_lib_8_leds</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -439,6 +439,16 @@
               <FileName>lib_keyboard.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\_lib_keyboard\lib_keyboard.h</FilePath>
+            </File>
+            <File>
+              <FileName>lib_8_leds_on_board.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\_lib_8_leds\lib_8_leds_on_board.c</FilePath>
+            </File>
+            <File>
+              <FileName>lib_8_leds_on_board.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\_lib_8_leds\lib_8_leds_on_board.h</FilePath>
             </File>
           </Files>
         </Group>

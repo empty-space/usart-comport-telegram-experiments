@@ -8,16 +8,20 @@
 #include "brown_delay.h"
 #include "btn_lib.h"
 #include "lib_keyboard.h"
+#include "lib_8_leds_on_board.h"
 // TRANSMITT !!!!
 
 void DisplaySymbol(uint8_t c);
 
 int main (void)
-{
+{	
     sys_tick_ini();
     btn_init_in_c15 ();
 		init_keypad();
+		leds_init();
     TM1637_init();	
+	
+		leds_test();
 	
     TM1637_brightness(BRIGHT_TYPICAL); 		    	
     TM1637_display_all(55);
@@ -34,10 +38,12 @@ int main (void)
 		key = keypadGetKey();
 		uart_putc(USART1, key);
 		DisplaySymbol(key);
+		leds_from_key_2(key);
 		
 		delay_from_Brown(200);		       
 	}
-}
+};
+
 void DisplaySymbol(uint8_t c){
 	TM1637_clearDisplay();	
 	if(c>=48 && c<=58){
@@ -51,7 +57,8 @@ void DisplaySymbol(uint8_t c){
 			case '#': 
 					TM1637_display_all_custom(0x00f6f600 );					
 					break;
-			default:			
+			default:	
+					TM1637_display_custom(3,0x7f&c);	
 					break;
     }
 	}
