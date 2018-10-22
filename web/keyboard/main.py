@@ -150,4 +150,4 @@ def com_worker():
 if __name__ == "__main__":
     com_thread = threading.Thread(target=com_worker)
     com_thread.start()
-    socketio.run(app, debug=True, host='0.0.0.0')
+    socketio.run(app, debug=True, use_reloader=False, host='0.0.0.0')
