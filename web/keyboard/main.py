@@ -58,10 +58,11 @@ def handle_display(key):
             send_message(user, current_display)
 
         if DEBUG_MODE:
-            print('Received key: ' + key + '\nBy: ' + request.sid)
+#            print('Received key: ' + key + '\nBy: ' + request.sid)
+            print('Received key: ' + key )
     else:
         if DEBUG_MODE:
-            print('ERROR Recived wrong key: ' + key + '\nBy: ' + request.sid)
+            print('ERROR Recived wrong key: ' + key)
 
 
 @app.route('/')
@@ -101,11 +102,13 @@ def print_isopen(ser):
 
 
 def com_worker():
-    global current_display
+    #global current_display
     ser = serial.Serial()
     ser.port = 'COM4'
+    by_com = False
     while True:
         try:
+            print("-while")
             print_isopen(ser)
 
             # ser = serial.Serial('COM4', 9600, timeout=0)
@@ -116,26 +119,30 @@ def com_worker():
                 ser.open()
             if not com_status:
                 com_was_enabled()
+            print("-while-2")
+            #data = ser.read(1)
+            print("-while-2.5")
 
-            data = ser.read(1)
-
-            by_com = False
 
             if ser.inWaiting():  # noqa
-                com_data = ser.readline()
+                com_data = ser.read().decode('utf-8')
+                
                 print('READ FROM COM: ', com_data)
                 by_com = True
-                current_display = com_data
+                #current_display = com_data
+                handle_display(com_data)
             else:
+                print("-while-else")
                 if by_com:
                     by_com = False
-                    current_display = DISPLAY_CLEAR_CHAR
-
+                    handle_display(DISPLAY_CLEAR_CHAR)
+            ser.flushInput()
+            print(f"-while-3 by_com = {by_com}")
             if current_display != DISPLAY_CLEAR_CHAR:
                 ser.write(str.encode(current_display))
             else:
                 ser.write(str.encode(' '))
-
+            print("-while-4")
             time.sleep(0.2)
         except serial.serialutil.SerialException as e:
             ser.close()

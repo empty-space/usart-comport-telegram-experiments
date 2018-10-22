@@ -7,7 +7,7 @@
 #ifndef PC_USART
 #define PC_USART
 
-#define PC_NO_SYMBOL 0xFF
+#define PC_NO_SYMBOL 0x01
 
 extern char pc_res;
 

@@ -58,7 +58,7 @@ void DisplaySymbol(uint8_t c){
 					TM1637_display_all_custom(0x00f6f600 );					
 					break;
 			default:	
-					TM1637_display_custom(3,0x7f&c);	
+					//TM1637_display_custom(3,0x7f&c);	
 					break;
     }
 	}

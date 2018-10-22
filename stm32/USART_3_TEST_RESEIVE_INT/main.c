@@ -24,6 +24,8 @@
  
 /* User defined function prototypes */
 
+#define KEYPAD_NO_PRESSED 0xFF
+
 void GPIOC_Init(void);
 void USART1_Init(void);
 void led_toggle(void);
@@ -35,6 +37,7 @@ void Display_Loop_4_effect_2(int times);
 void Display_Loop_dash_effect_1(int times);
 char tem_res;
 int displayLoopDalay = 400; 
+char to_pc_format(uint8_t key);
 
 int main(void)
 {   
@@ -55,11 +58,12 @@ int main(void)
 		char old_tem_res=tem_res;   
 		char old_pc_res=pc_res; 
 		while(1)
-    {
-			uart_putc(USART2,tem_res);
+    {			
+			if((uint8_t)tem_res!=KEYPAD_NO_PRESSED)
+				uart_putc(USART2,to_pc_format(tem_res));
 			if(old_tem_res!=tem_res){
 				DisplaySymbol(tem_res);
-				old_tem_res = tem_res;
+				old_tem_res = tem_res;				
 			}
 			if(old_pc_res!=pc_res){
 				DisplaySymbol(pc_res);        
@@ -69,10 +73,15 @@ int main(void)
     }
 }   
 
+char to_pc_format(uint8_t key){
+	if(key >= 128)
+		return 0x01;
+	return key;
+}
 
 void DisplaySymbol(uint8_t c){
 	TM1637_clearDisplay();
-	if(c>=48){
+	if(c>=48 && c<=57){
 		TM1637_display(1,c-48);
 	}
 	else{	
@@ -84,7 +93,7 @@ void DisplaySymbol(uint8_t c){
 					TM1637_display_all_custom(0x00f6f600 );					
 					break;
 			default:	
-					TM1637_display_custom(0,c);				
+					//TM1637_display_custom(0,c);				
 					break;
     }
 	}
