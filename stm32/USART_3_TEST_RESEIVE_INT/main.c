@@ -9,17 +9,28 @@
 #include "tm1637.h"
 #include "brown_delay.h"
 #include "pc_usart.h"
+/*****
+Overall functinal:
+
+1) Keyboard on STM32(1)
+    If you press on keyboard - char is sent to STM32(2) (to this)
+		Then display on tm1637
+		and transimt to Flusk Server (python)
+2) Web virtual keyboard  - is pressed - char is sent to STM32(2) (to this)
+******/
 
 
 // RESEIVER 
+// 1) Connects to PC (PA2,PA3) with two way data change 
+// 2) Connect to other STM32(PA9,PA10) only receive
+// 3) Displays the symbol that comes from one of (PC or other STM32)
+// 4) Usart works like: IRQ save global var 
+//     main.c - USART1_IRQHandler - saves tem_res
+//     pc_usart.c - USART2_IRQHandler - saves pc_res
+// 
 
 /*************************
- Tx PORTA9
- Rx PORTA10
- 
- PORTC Pin13 toggeld -> 
-                        in void GPIOC_Init(void) 
-                        led_toggle(void)
+
  *************************/
  
 /* User defined function prototypes */
@@ -55,30 +66,37 @@ int main(void)
     USART1_Init();
 		init_usart2();
 	
-		char old_tem_res=tem_res;   
+	  //save old tem_res
+		char old_tem_res=tem_res; 
+		//save old pc_res  
 		char old_pc_res=pc_res; 
 		while(1)
     {			
-			if((uint8_t)tem_res!=KEYPAD_NO_PRESSED)
-				uart_putc(USART2,to_pc_format(tem_res));
+			
+			if((uint8_t)tem_res!=KEYPAD_NO_PRESSED) //check tem-res that comes from another STM32
+				uart_putc(USART2,to_pc_format(tem_res)); //send to PC
 			if(old_tem_res!=tem_res){
-				DisplaySymbol(tem_res);
+				DisplaySymbol(tem_res); //display on screen
 				old_tem_res = tem_res;				
 			}
-			if(old_pc_res!=pc_res){
-				DisplaySymbol(pc_res);        
+			//high priority:
+			if(old_pc_res!=pc_res){ //check pc-res that comes from pc
+				DisplaySymbol(pc_res);//display pc_res on screen
+				//save old pc_res
 				old_pc_res = pc_res;
 			}
 			
     }
 }   
 
+//test a
 char to_pc_format(uint8_t key){
 	if(key >= 128)
 		return 0x01;
 	return key;
 }
 
+//display only 0-9, *, #
 void DisplaySymbol(uint8_t c){
 	TM1637_clearDisplay();
 	if(c>=48 && c<=57){
@@ -162,25 +180,25 @@ void USART1_Init(void)
     NVIC_EnableIRQ(USART1_IRQn);
 }
  
-/*******************************************
- * Toggle LED 
- *******************************************/
-void led_toggle(void)
-{
-    /* Read LED output (GPIOA PIN8) status */
-    uint8_t led_bit = GPIO_ReadOutputDataBit(GPIOC, GPIO_Pin_13);
-     
-    /* If LED output set, clear it */
-    if(led_bit == (uint8_t)Bit_SET)
-    {
-        GPIO_ResetBits(GPIOC, GPIO_Pin_13);
-    }
-    /* If LED output clear, set it */
-    else
-    {
-        GPIO_SetBits(GPIOC, GPIO_Pin_13);
-    }
-}
+///*******************************************
+// * Toggle LED 
+// *******************************************/
+//void led_toggle(void)
+//{
+//    /* Read LED output (GPIOA PIN8) status */
+//    uint8_t led_bit = GPIO_ReadOutputDataBit(GPIOC, GPIO_Pin_13);
+//     
+//    /* If LED output set, clear it */
+//    if(led_bit == (uint8_t)Bit_SET)
+//    {
+//        GPIO_ResetBits(GPIOC, GPIO_Pin_13);
+//    }
+//    /* If LED output clear, set it */
+//    else
+//    {
+//        GPIO_SetBits(GPIOC, GPIO_Pin_13);
+//    }
+//}
  
 /**********************************************************
  * USART1 interrupt request handler: on reception of a 

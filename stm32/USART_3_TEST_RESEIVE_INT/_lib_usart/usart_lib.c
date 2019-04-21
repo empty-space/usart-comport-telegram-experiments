@@ -19,9 +19,7 @@ int uart_open(USART_TypeDef* USARTx, uint32_t baud, uint32_t flags)
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1 | RCC_APB2Periph_AFIO | 
                            RCC_APB2Periph_GPIOA, ENABLE);
 		
-		// Initalise Pin Alternate Function Config
-		//GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_1);
-    //GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_1);
+	
 		
 		/* GPIOA PIN9 alternative function Tx */
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;

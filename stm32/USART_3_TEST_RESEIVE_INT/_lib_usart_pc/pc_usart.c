@@ -9,19 +9,8 @@ void USART2_IRQHandler(void)
     {
         /* If received 't', toggle LED and transmit 'T' */
         pc_res=(char)USART_ReceiveData(USART2);
-      			
-			//USART_SendData(USART2, 't');
-			
-            /* Wait until Tx data register is empty, not really 
-             * required for this example but put in here anyway.
-             */
-            /*
-            while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET)
-            {
-            }*/
-      
     }     
-    /* ------------------------------------------------------------ */
+  
 }
 
 
@@ -29,21 +18,17 @@ void init_usart2(){
 		
 	/* USART configuration structure for USART1 */
     USART_InitTypeDef usart2_init_struct;
-    /* Bit configuration structure for GPIOA PIN9 and PIN10 */
+    /* Bit configuration structure for GPIOA PIN2 and PIN3 */
     GPIO_InitTypeDef gpioa_init_struct;
-     
-    /* Enalbe clock for USART1, AFIO and GPIOA */
-    //RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1 | RCC_APB2Periph_AFIO | 
-    //                     RCC_APB2Periph_GPIOA, ENABLE);
-	
+    
 		RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2,ENABLE);
                             
-    /* GPIOA PIN9 alternative function Tx */
+    /* GPIOA PIN2 alternative function Tx */
     gpioa_init_struct.GPIO_Pin = GPIO_Pin_2;
     gpioa_init_struct.GPIO_Speed = GPIO_Speed_50MHz;
     gpioa_init_struct.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_Init(GPIOA, &gpioa_init_struct);
-    /* GPIOA PIN10 alternative function Rx */
+    /* GPIOA PIN3 alternative function Rx */
     gpioa_init_struct.GPIO_Pin = GPIO_Pin_3;
     gpioa_init_struct.GPIO_Speed = GPIO_Speed_50MHz;
     gpioa_init_struct.GPIO_Mode = GPIO_Mode_IN_FLOATING;

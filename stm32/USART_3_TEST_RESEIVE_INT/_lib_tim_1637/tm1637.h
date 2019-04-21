@@ -20,9 +20,13 @@
 #define INDEX_BLANK			     0 // 17 nothing ,0  zero beter for clock
 void TM1637_init(void);
 void TM1637_display(uint8_t Seg_N,int8_t DispData);
+//display on full screen a number Decimal
 void TM1637_display_all(uint16_t Decimal);
+//display on Seg_N ascii_char (NOT ALL!)
 void TM1637_display_ASCII(uint8_t Seg_N,int8_t ascii_char);
+//full control on all parts of Seg_N  
 void TM1637_display_custom(uint8_t Seg_N,uint8_t DispData);
+//full control on all parts of display  
 void TM1637_display_all_custom(uint32_t Digit);
 void TM1637_brightness(uint8_t brightness);
 void TM1637_clearDisplay(void);
